@@ -11,7 +11,7 @@
   <set-property name = "gwt.logging.enabled" value = "TRUE"/>
 
   <stylesheet src='/style.css' />
-  <entry-point class='com.gransoft.View'/>
+  <entry-point class='com.gransoft.sortbuttons.view.MainView'/>
   <source path=""/>
 
   <add-linker name="xsiframe"/>

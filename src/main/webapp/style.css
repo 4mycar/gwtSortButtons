@@ -46,7 +46,7 @@ body{
   height: 25px;
 }
 
-/*Sort*/
+/*SortScreen*/
 .sortContainer{
   display: flex;
   min-width: 60%;
@@ -83,9 +83,4 @@ body{
 }
 .pointer{
   border: 2px solid #976d01;
-}
-
-.speedSort{
-  margin: 10px auto;
-  width: 100px;
 }
