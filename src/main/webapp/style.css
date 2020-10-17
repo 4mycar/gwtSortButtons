@@ -15,6 +15,15 @@ body{
   width:100px;
 }
 
+.gwt-Sorted-Button{
+  display: block;
+  margin: 10px auto;
+  background: #fcb80a;
+  font-size: 16px;
+  color: #000000;
+  width:100px;
+}
+
 .gwt-TextBox{
   text-align: center;
   font-size: 16px;

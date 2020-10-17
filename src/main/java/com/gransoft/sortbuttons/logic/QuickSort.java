@@ -1,9 +1,27 @@
 package com.gransoft.sortbuttons.logic;
 
 
-public class QuickSort {
+import com.gransoft.sortbuttons.pojo.SortStep;
+import com.gransoft.sortbuttons.view.SortScreen;
 
-    public void sort(int[] arr, int begin, int end, boolean isDesc) {
+import java.util.ArrayList;
+import java.util.List;
+
+public class QuickSort {
+//    SortScreen sortScreen;
+    private List<SortStep> sortStepList = new ArrayList<>();
+//    public QuickSort (SortScreen sortScreen){
+//        this.sortScreen=sortScreen;
+//    }
+
+
+    public void sort(int[] arr, boolean isDesc) {
+        sortStepList.clear();
+        sort(arr, 0,arr.length-1,isDesc);
+//        sortScreen.visualizeSwap(sortStepList);
+    }
+
+    private void sort(int[] arr, int begin, int end, boolean isDesc){
         if (begin < end) {
             int partitionIndex = partition(arr, begin, end, isDesc);
             sort(arr, begin, partitionIndex - 1, isDesc);
@@ -18,12 +36,15 @@ public class QuickSort {
         for (int j = begin; j < end; j++) {
             if (!isDesc && arr[j] <= pivot) {
                 i++;
+//                sortStepList.add(new SortStep(i,j,pivot,begin,end));
                 swap(arr, i, j);
             } else if (isDesc && arr[j] >= pivot) {
                 i++;
+//                sortStepList.add(new SortStep(i,j,pivot,begin,end));
                 swap(arr, i, j);
             }
         }
+        sortStepList.add(new SortStep(i + 1,end,pivot,begin,end));
         swap(arr, i + 1, end);
 
         return i + 1;
@@ -35,4 +56,7 @@ public class QuickSort {
         arr[j] = swapTemp;
     }
 
+    public List<SortStep> getSortStepList() {
+        return sortStepList;
+    }
 }

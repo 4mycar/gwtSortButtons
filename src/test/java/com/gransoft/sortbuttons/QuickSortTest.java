@@ -1,6 +1,7 @@
 package com.gransoft.sortbuttons;
 
 import com.gransoft.sortbuttons.logic.QuickSort;
+import com.gransoft.sortbuttons.view.SortScreen;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -13,12 +14,13 @@ public class QuickSortTest {
 
     @Test
     public void quickSortAsc() {
-        quickSort.sort(arr, 0, arr.length - 1, false);
+        quickSort.sort(arr, false);
+        quickSort.getSortStepList().stream().forEach(System.out::println);
         assertArrayEquals(ascSortedArr, arr);
     }
     @Test
     public void quickSortDesc() {
-        quickSort.sort(arr, 0, arr.length - 1, true);
+        quickSort.sort(arr, true);
         assertArrayEquals(descSortedArr, arr);
     }
 
