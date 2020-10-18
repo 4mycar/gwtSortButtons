@@ -15,17 +15,16 @@ import java.util.logging.Logger;
 public class SortScreen extends Composite {
 
     private static Logger logger = Logger.getLogger("");
-
     private final Randomizer randomizer = new Randomizer();
-
     private final Button sortButton = new Button("Sort");
     private final Button resetButton = new Button("Reset");
+    private final CheckBox checkBox = new CheckBox("Visualize sorting");
     private List<Button> numberButtonsList = new ArrayList<>();
     private FlowPanel sortContainer = new FlowPanel();
     private int[] elements;
     private boolean isDescSort = true;
+    private boolean isVisualize = true;
     private QuickSort quickSort = new QuickSort();
-//    public List<SortStep> sortStepList;
 
 
     void buildSortWindow(int numbersOfDisplay) {
@@ -80,13 +79,20 @@ public class SortScreen extends Composite {
         buttonBlockContainer.addStyleName("buttonBlock");
         sortButton.addStyleName("btnSort");
         resetButton.addStyleName("btnSort");
+        checkBox.setValue(true);
         buttonBlockContainer.add(sortButton);
         buttonBlockContainer.add(resetButton);
+        buttonBlockContainer.add(checkBox);
+
+        checkBox.addClickHandler(clickEvent -> isVisualize = ((CheckBox) clickEvent.getSource()).getValue());
 
         sortButton.addClickHandler(clickEvent -> {
             quickSort.sort(elements, isDescSort);
-            visualizeSwap(quickSort.getSortStepList());
-//            renewButtons(elements);
+            if (isVisualize) {
+                visualizeSwap(quickSort.getSortStepList());
+            } else {
+                renewButtons(elements);
+            }
             isDescSort = !isDescSort;
         });
 
@@ -95,42 +101,24 @@ public class SortScreen extends Composite {
         return buttonBlockContainer;
     }
 
-//    public void visualizeSwap (int i, int j){
-//        Timer stepTimer = new Timer() {
-//            public void run() {
-//                Button tmpBtn = numberButtonsList.get(i);
-//                numberButtonsList.set(i,numberButtonsList.get(j));
-//                numberButtonsList.set(j,tmpBtn);
-//                numberButtonsList.get(j).setStyleName("gwt-Sorted-Button");
-//                numberButtonsList.get(i).setStyleName("gwt-Sorted-Button");
-//                //renewButtons(elements);
-//            }
-//        };
-//
-//        stepTimer.scheduleRepeating(1000);
-//    }
-
     public void visualizeSwap(List<SortStep> sortStepList) {
-        for (SortStep step: sortStepList) {
-            resetStyleShowSort(step);
-            logger.log(Level.SEVERE, "Step sort:\n" + step);
-            setStyleShowSort(step);
-        }
-//
-//        Timer stepTimer = new Timer() {
-//            public void run() {
-//                if (!sortStepList.iterator().hasNext()) {
-//                    this.cancel();
-//                    return;
-//                }
-//                SortStep step = sortStepList.iterator().next();
-//                resetStyleShowSort(step);
-//                logger.log(Level.SEVERE, "Step sort:\n" + step);
-//                setStyleShowSort(step);
-//            }
-//        };
-////        setStyleShowSort(sortStepList, 0);
-//        stepTimer.scheduleRepeating(100);
+        Timer stepTimer = new Timer() {
+            int i = 0;
+
+            public void run() {
+                if (i == sortStepList.size()) {
+                    resetStyleAllButtons();
+                    this.cancel();
+                    return;
+                }
+                SortStep step = sortStepList.get(i);
+                logger.log(Level.SEVERE, "Step sort:\n" + step);
+                resetStyleAllButtons();
+                setStyleShowSort(step);
+                i++;
+            }
+        };
+        stepTimer.scheduleRepeating(100);
     }
 
     private void setStyleShowSort(SortStep step) {
@@ -141,33 +129,30 @@ public class SortScreen extends Composite {
         int i = step.getI();
         int j = step.getJ();
 
-        numberButtonsList.get(step.getPivot()).addStyleName("paviot");
+        numberButtonsList.get(step.getPivot()).addStyleName("pivot");
         numberButtonsList.get(i).addStyleName("pointer");
         numberButtonsList.get(j).addStyleName("pointer");
-        numberButtonsList.get(i).addStyleName("swap");
-        numberButtonsList.get(j).addStyleName("swap");
-        updateNumberButtonsAll(i,j);
-
-    }
-
-    private void resetStyleShowSort(SortStep step) {
-        int i = step.getI();
-        int j = step.getJ();
-
-        for (int k = step.getLow(); k <= step.getHigh(); k++) {
-            numberButtonsList.get(k).removeStyleName("sortArray");
+        if (step.isSwap()) {
+            numberButtonsList.get(i).addStyleName("swap");
+            numberButtonsList.get(j).addStyleName("swap");
+            updateButtonNumbers(i, j);
         }
-        numberButtonsList.get(i).removeStyleName("pointer");
-        numberButtonsList.get(i).removeStyleName("swap");
-        numberButtonsList.get(j).removeStyleName("pointer");
-        numberButtonsList.get(j).removeStyleName("swap");
-        numberButtonsList.get(step.getPivot()).removeStyleName("paviot");
     }
 
-    private void updateNumberButtonsAll(int i, int j) {
-        int tmp = i;
-        numberButtonsList.get(i).setText(String.valueOf(j));
-        numberButtonsList.get(j).setText(String.valueOf(tmp));
+    private void resetStyleAllButtons() {
+
+        for (Button button : numberButtonsList) {
+            button.removeStyleName("sortArray");
+            button.removeStyleName("pointer");
+            button.removeStyleName("swap");
+            button.removeStyleName("pivot");
+        }
+    }
+
+    private void updateButtonNumbers(int i, int j) {
+        String tmp = numberButtonsList.get(i).getText();
+        numberButtonsList.get(i).setText(numberButtonsList.get(j).getText());
+        numberButtonsList.get(j).setText(tmp);
     }
 
 }

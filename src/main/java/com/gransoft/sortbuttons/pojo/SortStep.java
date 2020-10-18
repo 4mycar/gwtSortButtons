@@ -6,13 +6,15 @@ public class SortStep {
     private int pivot;
     private int low;
     private int high;
+    private boolean isSwap;
 
-    public SortStep(int i, int j, int pivot, int low, int high) {
+    public SortStep(int i, int j, int pivot, int low, int high, boolean isSwap) {
         this.i = i;
         this.j = j;
         this.pivot = pivot;
         this.low = low;
         this.high = high;
+        this.isSwap = isSwap;
     }
 
     public int getI() {
@@ -35,6 +37,10 @@ public class SortStep {
         return high;
     }
 
+    public boolean isSwap() {
+        return isSwap;
+    }
+
     @Override
     public String toString() {
         return "SortStep{" +
@@ -43,6 +49,7 @@ public class SortStep {
                 ", pivot=" + pivot +
                 ", low=" + low +
                 ", high=" + high +
+                ", isSwap=" + isSwap +
                 '}';
     }
 }

@@ -39,7 +39,7 @@ public class IntroScreen extends Composite {
         initWidget(introContainer);
     }
 
-    private void buildSortScreen(){
+    private void buildSortScreen() {
         errorLabel.setText("");
         String inputNumbers = numberField.getText();
         if (isValidNumber(inputNumbers, RANGEMIN, RANGEMAX)) {

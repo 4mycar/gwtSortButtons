@@ -15,14 +15,7 @@ body{
   width:100px;
 }
 
-.gwt-Sorted-Button{
-  display: block;
-  margin: 10px auto;
-  background: #fcb80a;
-  font-size: 16px;
-  color: #000000;
-  width:100px;
-}
+
 
 .gwt-TextBox{
   text-align: center;
@@ -80,16 +73,16 @@ body{
 }
 
 .sortArray{
-  background: #097d63;
+  background: #ab9607;
 }
 
-.paviot{
-  background: #774f70;
+.pivot{
+  background: #09940c;
 }
 .swap{
-  color: crimson;
+  color: #0a0a0a;
   font-weight: bold;
 }
 .pointer{
-  border: 2px solid #976d01;
+  border: 2px solid #dd0f08;
 }
